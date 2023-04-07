@@ -3,6 +3,7 @@ import { tshirtAdd,updateById,readDataByid,deleteById,readData } from "../contro
 import { checkUser,checkUser1 } from "../middlewere/adminMiddlewere";
 import { userAdd,userReadData } from "../controllers/userControllers";
 import { tshirtAddInorder,adminReadData,userReadDataOrder,userReadDataOrderStatus,updateBystatus } from "../controllers/orderController";
+import { BulkInsert,getFilterBulkInsert } from "../controllers/dashbordController";
 const routerPath= express.Router();
 routerPath.post('/addTshirt',checkUser,tshirtAdd)
 routerPath.put('/updateTshirt/:id',checkUser,updateById)
@@ -16,6 +17,10 @@ routerPath.get('/adminReadDataApi',checkUser,adminReadData)
 routerPath.get('/userReadDataOrderApi/:orderId',checkUser1,userReadDataOrder)
 routerPath.get('/userReadDataOrderStatusApi/:id',checkUser1,userReadDataOrderStatus)
 routerPath.put('/updateBystatusApi/:id',checkUser,updateBystatus)
+
+
+routerPath.get('/getFilterBulkInsert',getFilterBulkInsert)
+routerPath.post('/BulkInsert',BulkInsert);
 export{
     routerPath
 }
