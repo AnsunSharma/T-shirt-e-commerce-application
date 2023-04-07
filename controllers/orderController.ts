@@ -30,40 +30,54 @@ export const adminReadData=async(req:Request,res:Response)=>{
    
   
     try {
-          //let result2=await orderModel.find();
-        //   const data=await orderModel.aggregate([{
-        //     '$lookup':{
-        //         'from':'UserModel'
-        //     }
-        //   }])
-        const data = await UserModel.aggregate([
-            
-                {
-                  '$match': {
-                    '_id': new ObjectId('639722c2617050001a578766')
+          //et result2=await orderModel.find();
+          const data=await orderModel.aggregate(
+            [
+              {
+                  '$addFields': {
+                      'userIdAsObject': {
+                          '$toObjectId': '$userId'
+                      }
                   }
-                }, {
+              }, {
                   '$lookup': {
-                    'from': 'ordermodels', 
-                    'let': {
-                      'id': {
-                        '$toString': '$_id'
-                      }
-                    }, 
-                    'pipeline': [
-                      {
-                        '$match': {
-                          '$expr': [
-                            '$userId', '$$id'
-                          ]
-                        }
-                      }
-                    ], 
-                    'as': 'result'
+                      'from': 'usermodels', 
+                      'localField': 'userIdAsObject', 
+                      'foreignField': '_id', 
+                      'as': 'userINfo'
                   }
-                }
+              }
+          ]
+          )
+        const data1=await UserModel.find()
+        // const data = await UserModel.aggregate([
+            
+        //         {
+        //           '$match': {
+        //             '_id': new ObjectId('63982eee0837c872200b136d')
+        //           }
+        //         }, {
+        //           '$lookup': {
+        //             'from': 'ordermodels', 
+        //             'let': {
+        //               'id': {
+        //                 '$toString': '$_id'
+        //               }
+        //             }, 
+        //             'pipeline': [
+        //               {
+        //                 '$match': {
+        //                   '$expr': [
+        //                     '$userId', '$$id'
+        //                   ]
+        //                 }
+        //               }
+        //             ], 
+        //             'as': 'result'
+        //           }
+        //         }
               
-          ])
+        //   ])
           console.log(data);
           
          res.json(data)
